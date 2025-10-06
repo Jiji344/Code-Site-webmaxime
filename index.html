@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Monsieur Crocodeal - Photographe professionnel à Montpellier. Spécialiste en portrait, mariages, immobilier et paysages. Capturer l'essence de chaque moment avec passion.">
+    <meta name="keywords" content="photographe, Montpellier, portrait, mariage, immobilier, paysage, photographie professionnelle">
+    <meta name="author" content="Monsieur Crocodeal">
+    <title>Monsieur Crocodeal - Photographe Professionnel à Montpellier</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Précharger le modèle 3D -->
+    <link rel="preload" href="assets/camera.glb" as="fetch" crossorigin="anonymous">
+    
+    <!-- Chargement prioritaire de Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#accueil" class="nav-brand">
+                <img src="images/logo.png" alt="Monsieur Crocodeal Logo" class="logo-img">
+                <span class="logo-text">Monsieur Crocodeal</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#accueil" class="nav-link">Accueil</a>
+                <a href="#portfolio" class="nav-link">Portfolio</a>
+                <a href="#apropos" class="nav-link">À propos</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            
+            <button class="hamburger" aria-label="Ouvrir le menu de navigation" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </button>
+    </nav>
+    </header>
+    
+    <!-- Overlay menu mobile -->
+    <div class="mobile-menu-overlay"></div>
+    
+    <!-- Menu mobile -->
+    <nav class="mobile-menu" aria-label="Menu mobile de navigation">
+        <a href="#accueil" class="mobile-link">Accueil</a>
+        <a href="#portfolio" class="mobile-link">Portfolio</a>
+        <a href="#apropos" class="mobile-link">À propos</a>
+        <a href="#contact" class="mobile-link">Contact</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Monsieur Crocodeal</h1>
+                <p class="hero-subtitle">Photographe Professionnel</p>
+                <p class="hero-description">Capturer l'essence de chaque moment avec passion et créativité</p>
+                <a href="#portfolio" class="cta-button">Découvrir mon travail</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="solar-system-2d">
+                <!-- Objectif d'appareil photo -->
+                <div class="solar-center">
+                    <div class="crocodile-sun">
+                        <!-- Marquages et indicateurs -->
+                        <div class="lens-markings">
+                            <div class="focus-scale"></div>
+                        </div>
+                        
+                        <!-- Couche de lentille extérieure -->
+                        <div class="lens-outer-ring"></div>
+                        <div class="lens-middle-ring"></div>
+                        
+                        <!-- Lentille centrale multi-couches -->
+                        <div class="aperture-blades">
+                            <div class="lens-layer-1">
+                                <div class="lens-layer-2">
+                                    <div class="lens-core"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Reflet de lentille -->
+                        <div class="lens-glare"></div>
+                        
+                        <!-- Badge de focale -->
+                        <div class="lens-badge">f/1.4</div>
+                    </div>
+                </div>
+                
+                <!-- Conteneur 3D pour la caméra -->
+                <div id="camera-3d-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">Portfolio</h2>
+            <div class="portfolio-filters" role="group" aria-label="Filtres du portfolio">
+                <button class="filter-btn active" data-filter="all" aria-pressed="true">Tout</button>
+                <button class="filter-btn" data-filter="mariages" aria-pressed="false">Mariages</button>
+                <button class="filter-btn" data-filter="immobilier" aria-pressed="false">Immobilier</button>
+                <button class="filter-btn" data-filter="shooting" aria-pressed="false">Shooting & Portrait</button>
+                <button class="filter-btn" data-filter="rue" aria-pressed="false">Photo de Rue</button>
+                <button class="filter-btn" data-filter="macro" aria-pressed="false">Macro</button>
+                <button class="filter-btn" data-filter="paysage" aria-pressed="false">Paysage</button>
+            </div>
+            <!-- Section de défilement automatique pour "Tout" -->
+            <div id="portfolio-auto-scroll" class="portfolio-auto-scroll">
+                <div class="portfolio-scroll-grid">
+                    <!-- Première série d'éléments -->
+                    <!-- Mariages -->
+                    <div class="portfolio-scroll-item" data-category="mariages">
+                        <div class="placeholder-image">💒</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Cérémonie Romantique</h3>
+                            <p>Mariage en extérieur</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="mariages">
+                        <div class="placeholder-image">💍</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Échange des Vœux</h3>
+                            <p>Moment d'émotion pure</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Immobilier -->
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/interieur-rouge.jpg" alt="Intérieur rouge avec plantes" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Ambiance Chaleureuse</h3>
+                            <p>Photographie immobilière</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/piano-salon.jpg" alt="Piano dans salon élégant" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Salon de Prestige</h3>
+                            <p>Mise en valeur immobilière</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/cuisine-billard.jpg" alt="Cuisine avec billard rouge" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Espace de Vie Moderne</h3>
+                            <p>Architecture d'intérieur</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/chambre-luxe.jpg" alt="Chambre de luxe avec baldaquin" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Suite Parentale</h3>
+                            <p>Luxe et raffinement</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/salle-bain-luxe.jpg" alt="Salle de bain luxueuse" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Salle de Bain Design</h3>
+                            <p>Élégance contemporaine</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/escalier-rouge.jpg" alt="Escalier dans maison rouge" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Architecture Unique</h3>
+                            <p>Caractère et authenticité</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Shooting & Portrait -->
+                    <div class="portfolio-scroll-item" data-category="shooting">
+                        <div class="placeholder-image">📸</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Portrait Studio</h3>
+                            <p>Séance photo professionnelle</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="shooting">
+                        <div class="placeholder-image">👤</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Portrait Corporate</h3>
+                            <p>Image professionnelle</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo De Rue -->
+                    <div class="portfolio-scroll-item" data-category="rue">
+                        <div class="placeholder-image">🏙️</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Vie Urbaine</h3>
+                            <p>Instantanés de rue</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="rue">
+                        <div class="placeholder-image">🚶</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Scènes de Vie</h3>
+                            <p>Photographie documentaire</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Macro -->
+                    <div class="portfolio-scroll-item" data-category="macro">
+                        <div class="placeholder-image">🔍</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Détails Précieux</h3>
+                            <p>Macrophotographie</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="macro">
+                        <div class="placeholder-image">🌸</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Nature Intime</h3>
+                            <p>Macro botanique</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Paysage -->
+                    <div class="portfolio-scroll-item" data-category="paysage">
+                        <div class="placeholder-image">🏔️</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Montagnes Majestueuses</h3>
+                            <p>Paysage naturel</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="paysage">
+                        <div class="placeholder-image">🌅</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Lever de Soleil</h3>
+                            <p>Lumière dorée</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Deuxième série d'éléments (duplication pour continuité) -->
+                    <!-- Mariages -->
+                    <div class="portfolio-scroll-item" data-category="mariages">
+                        <div class="placeholder-image">💒</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Cérémonie Romantique</h3>
+                            <p>Mariage en extérieur</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="mariages">
+                        <div class="placeholder-image">💍</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Échange des Vœux</h3>
+                            <p>Moment d'émotion pure</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Immobilier -->
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/interieur-rouge.jpg" alt="Intérieur rouge avec plantes" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Ambiance Chaleureuse</h3>
+                            <p>Photographie immobilière</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/piano-salon.jpg" alt="Piano dans salon élégant" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Salon de Prestige</h3>
+                            <p>Mise en valeur immobilière</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/cuisine-billard.jpg" alt="Cuisine avec billard rouge" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Espace de Vie Moderne</h3>
+                            <p>Architecture d'intérieur</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/chambre-luxe.jpg" alt="Chambre de luxe avec baldaquin" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Suite Parentale</h3>
+                            <p>Luxe et raffinement</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/salle-bain-luxe.jpg" alt="Salle de bain luxueuse" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Salle de Bain Design</h3>
+                            <p>Élégance contemporaine</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="immobilier">
+                        <img src="images/escalier-rouge.jpg" alt="Escalier dans maison rouge" class="portfolio-scroll-image">
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Architecture Unique</h3>
+                            <p>Caractère et authenticité</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Shooting & Portrait -->
+                    <div class="portfolio-scroll-item" data-category="shooting">
+                        <div class="placeholder-image">📸</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Portrait Studio</h3>
+                            <p>Séance photo professionnelle</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="shooting">
+                        <div class="placeholder-image">👤</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Portrait Corporate</h3>
+                            <p>Image professionnelle</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Photo De Rue -->
+                    <div class="portfolio-scroll-item" data-category="rue">
+                        <div class="placeholder-image">🏙️</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Vie Urbaine</h3>
+                            <p>Instantanés de rue</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="rue">
+                        <div class="placeholder-image">🚶</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Scènes de Vie</h3>
+                            <p>Photographie documentaire</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Macro -->
+                    <div class="portfolio-scroll-item" data-category="macro">
+                        <div class="placeholder-image">🔍</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Détails Précieux</h3>
+                            <p>Macrophotographie</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="macro">
+                        <div class="placeholder-image">🌸</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Nature Intime</h3>
+                            <p>Macro botanique</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Paysage -->
+                    <div class="portfolio-scroll-item" data-category="paysage">
+                        <div class="placeholder-image">🏔️</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Montagnes Majestueuses</h3>
+                            <p>Paysage naturel</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-scroll-item" data-category="paysage">
+                        <div class="placeholder-image">🌅</div>
+                        <div class="portfolio-scroll-overlay">
+                            <h3>Lever de Soleil</h3>
+                            <p>Lumière dorée</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grille normale pour les autres filtres -->
+            <div id="portfolio-normal-grid" class="portfolio-grid">
+                <!-- Mariages -->
+                <div class="portfolio-item" data-category="mariages">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">💒</div>
+                        <div class="portfolio-overlay">
+                            <h3>Cérémonie Romantique</h3>
+                            <p>Mariage en extérieur</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="mariages">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">💍</div>
+                        <div class="portfolio-overlay">
+                            <h3>Échange des Vœux</h3>
+                            <p>Moment d'émotion pure</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Immobilier -->
+                <div class="portfolio-item" data-category="immobilier">
+                    <div class="portfolio-image">
+                        <img src="images/interieur-rouge.jpg" alt="Intérieur rouge avec plantes">
+                        <div class="portfolio-overlay">
+                            <h3>Ambiance Chaleureuse</h3>
+                            <p>Photographie immobilière</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="immobilier">
+                    <div class="portfolio-image">
+                        <img src="images/piano-salon.jpg" alt="Piano dans salon élégant">
+                        <div class="portfolio-overlay">
+                            <h3>Salon de Prestige</h3>
+                            <p>Mise en valeur immobilière</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="immobilier">
+                    <div class="portfolio-image">
+                        <img src="images/cuisine-billard.jpg" alt="Cuisine avec billard rouge">
+                        <div class="portfolio-overlay">
+                            <h3>Espace de Vie Moderne</h3>
+                            <p>Architecture d'intérieur</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="immobilier">
+                    <div class="portfolio-image">
+                        <img src="images/chambre-luxe.jpg" alt="Chambre de luxe avec baldaquin">
+                        <div class="portfolio-overlay">
+                            <h3>Suite Parentale</h3>
+                            <p>Luxe et raffinement</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="immobilier">
+                    <div class="portfolio-image">
+                        <img src="images/salle-bain-luxe.jpg" alt="Salle de bain luxueuse">
+                        <div class="portfolio-overlay">
+                            <h3>Salle de Bain Design</h3>
+                            <p>Élégance contemporaine</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="immobilier">
+                    <div class="portfolio-image">
+                        <img src="images/escalier-rouge.jpg" alt="Escalier dans maison rouge">
+                        <div class="portfolio-overlay">
+                            <h3>Architecture Unique</h3>
+                            <p>Caractère et authenticité</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shooting & Portrait -->
+                <div class="portfolio-item" data-category="shooting">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">📸</div>
+                        <div class="portfolio-overlay">
+                            <h3>Portrait Studio</h3>
+                            <p>Séance photo professionnelle</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="shooting">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">👤</div>
+                        <div class="portfolio-overlay">
+                            <h3>Portrait Corporate</h3>
+                            <p>Image professionnelle</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Photo De Rue -->
+                <div class="portfolio-item" data-category="rue">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">🏙️</div>
+                        <div class="portfolio-overlay">
+                            <h3>Vie Urbaine</h3>
+                            <p>Instantanés de rue</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="rue">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">🚶</div>
+                        <div class="portfolio-overlay">
+                            <h3>Scènes de Vie</h3>
+                            <p>Photographie documentaire</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Macro -->
+                <div class="portfolio-item" data-category="macro">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">🔍</div>
+                        <div class="portfolio-overlay">
+                            <h3>Détails Précieux</h3>
+                            <p>Macrophotographie</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="macro">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">🌸</div>
+                        <div class="portfolio-overlay">
+                            <h3>Nature Intime</h3>
+                            <p>Macro botanique</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Paysage -->
+                <div class="portfolio-item" data-category="paysage">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">🏔️</div>
+                        <div class="portfolio-overlay">
+                            <h3>Montagnes Majestueuses</h3>
+                            <p>Paysage naturel</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="paysage">
+                    <div class="portfolio-image">
+                        <div class="placeholder-image">🌅</div>
+                        <div class="portfolio-overlay">
+                            <h3>Lever de Soleil</h3>
+                            <p>Lumière dorée</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="apropos" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">À propos</h2>
+                    <p>Passionné par l'art de la photographie depuis plus de 10 ans, je suis Monsieur Crocodeal, photographe professionnel spécialisé dans le portrait, les paysages et les événements.</p>
+                    <p>Mon approche unique combine technique maîtrisée et vision artistique pour créer des images qui racontent une histoire et capturent l'émotion de chaque instant.</p>
+                    <div class="skills">
+                        <div class="skill-item">
+                            <h3>Portrait</h3>
+                            <p>Séances individuelles et corporate</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>Événements</h3>
+                            <p>Mariages, galas, conférences</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>Nature</h3>
+                            <p>Paysages et photographie animalière</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="photographer-placeholder">👨‍💼</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📱 Téléphone</h3>
+                        <p>+33 1 23 45 67 89</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📍 Localisation</h3>
+                        <p>Montpellier, France</p>
+                    </div>
+                </div>
+                <form class="contact-form" action="https://formspree.io/f/VOTRE_ID_FORMSPREE" method="POST" aria-label="Formulaire de contact">
+                    <div class="form-group">
+                        <label for="contact-name" class="sr-only">Votre nom</label>
+                        <input type="text" id="contact-name" name="name" placeholder="Votre nom" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email" class="sr-only">Votre email</label>
+                        <input type="email" id="contact-email" name="email" placeholder="Votre email" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message" class="sr-only">Votre message</label>
+                        <textarea id="contact-message" name="message" placeholder="Votre message" rows="5" required aria-required="true"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Monsieur Crocodeal. Tous droits réservés.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" aria-hidden="true">
+        <div class="lightbox-content">
+            <button class="close-lightbox" aria-label="Fermer la lightbox">&times;</button>
+            <img id="lightbox-image" src="" alt="Image en grand format" loading="lazy">
+            <div class="lightbox-info">
+                <h3 id="lightbox-title"></h3>
+                <p id="lightbox-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
