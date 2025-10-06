@@ -259,7 +259,7 @@ function openLightbox(item) {
     } else if (imagePlaceholder) {
         imageSrc = `data:image/svg+xml;base64,${btoa(`
             <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100%" height="100%" fill="#238636"/>
+                <rect width="100%" height="100%" fill="#3A7894"/>
                 <text x="50%" y="50%" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dy=".3em">
                     ${imagePlaceholder.textContent}
                 </text>
@@ -268,7 +268,7 @@ function openLightbox(item) {
     } else {
         imageSrc = `data:image/svg+xml;base64,${btoa(`
             <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
-                <rect width="100%" height="100%" fill="#238636"/>
+                <rect width="100%" height="100%" fill="#3A7894"/>
                 <text x="50%" y="50%" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dy=".3em">
                     📸
                 </text>
@@ -544,8 +544,8 @@ function createSimpleTouchEffect(x, y) {
         width: 20px;
         height: 20px;
             border-radius: 50%;
-        background: radial-gradient(circle, rgba(0, 255, 136, 0.6) 0%, rgba(0, 255, 136, 0.3) 50%, transparent 100%);
-        border: 2px solid rgba(0, 255, 136, 0.8);
+        background: radial-gradient(circle, rgba(58, 120, 148, 0.6) 0%, rgba(58, 120, 148, 0.3) 50%, transparent 100%);
+        border: 2px solid rgba(58, 120, 148, 0.8);
             pointer-events: none;
             z-index: 9999;
         transform: translate(-50%, -50%);
@@ -609,7 +609,7 @@ function createParticleSystem() {
             position: absolute;
             width: ${size}px;
             height: ${size}px;
-            background: rgba(0, 255, 136, ${opacity});
+            background: rgba(58, 120, 148, ${opacity});
             border-radius: 50%;
             left: ${Math.random() * 100}%;
             top: 100%;
@@ -636,7 +636,7 @@ function createParticleSystem() {
             position: absolute;
             width: ${size}px;
             height: ${size}px;
-            background: rgba(0, 255, 136, ${opacity});
+            background: rgba(58, 120, 148, ${opacity});
             border-radius: 50%;
             left: ${Math.random() * 100}%;
             top: ${startY}%;
@@ -679,8 +679,8 @@ function createSphereTrails() {
     if (!solarSystem) return;
     
     const sphereColors = [
-        '#00C957', '#00BCD4', '#009688', '#40C4FF',
-        '#64DD17', '#32CD32', '#40E0D0', '#00A86B'
+        '#3A7894', '#4D8FAA', '#2D5F73', '#5BA3C0',
+        '#6FB6CD', '#4A8BA0', '#5AA7BD', '#397082'
     ];
     
     function createTrailParticle(sphere, color) {
@@ -788,7 +788,7 @@ function init3DCamera() {
     scene.add(ambientLight);
     
     // 2. Lumière centrale verte et puissante (au centre de l'objectif)
-    const centralLight = new THREE.PointLight(0x00ff88, 4, 15);
+    const centralLight = new THREE.PointLight(0x3A7894, 4, 15);
     centralLight.position.set(0, 0, 0);
     scene.add(centralLight);
     
