@@ -13,9 +13,15 @@ const mobileLinks = document.querySelectorAll('.mobile-link');
 
 // Fonction pour fermer le menu
 function closeMobileMenu() {
-    hamburger.classList.remove('active');
-    mobileMenu.classList.remove('active');
-    mobileMenuOverlay.classList.remove('active');
+    if (hamburger) {
+        hamburger.classList.remove('active');
+    }
+    if (mobileMenu) {
+        mobileMenu.classList.remove('active');
+    }
+    if (mobileMenuOverlay) {
+        mobileMenuOverlay.classList.remove('active');
+    }
     document.body.classList.remove('menu-open');
     // Rétablir le padding
     document.body.style.paddingRight = '';
@@ -66,7 +72,7 @@ mobileLinks.forEach(link => {
 
 // Fermer le menu avec la touche Escape
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+    if (e.key === 'Escape' && mobileMenu && mobileMenu.classList.contains('active')) {
         closeMobileMenu();
     }
 });
@@ -74,22 +80,31 @@ document.addEventListener('keydown', (e) => {
 /* ===== SMOOTH SCROLLING ===== */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
         const href = this.getAttribute('href');
-        const target = document.querySelector(href);
-        
-        if (target) {
-            // Vérifier si on clique sur #accueil alors qu'on est déjà en haut
-            if (href === '#accueil' && window.scrollY < 100) {
-                // Ne rien faire, on est déjà en haut
-                return;
-            }
-            
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+
+        if (!href || href === '#' || href.length <= 1) {
+            return;
         }
+
+        const targetId = href.slice(1);
+        const target = document.getElementById(targetId);
+
+        if (!target) {
+            return;
+        }
+
+        e.preventDefault();
+
+        // Vérifier si on clique sur #accueil alors qu'on est déjà en haut
+        if (href === '#accueil' && window.scrollY < 100) {
+            // Ne rien faire, on est déjà en haut
+            return;
+        }
+
+        target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
     });
 });
 
@@ -111,7 +126,7 @@ const observer = new IntersectionObserver((entries) => {
 // Initialiser les éléments à observer
 document.addEventListener('DOMContentLoaded', () => {
     const elementsToAnimate = document.querySelectorAll('.portfolio-item, .skill-item, .contact-item');
-    
+
     elementsToAnimate.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -125,46 +140,49 @@ const filterButtons = document.querySelectorAll('.filter-btn');
 const portfolioItems = document.querySelectorAll('.portfolio-item');
 const portfolioAutoScroll = document.getElementById('portfolio-auto-scroll');
 const portfolioNormalGrid = document.getElementById('portfolio-normal-grid');
+const hasPortfolioLayouts = portfolioAutoScroll instanceof HTMLElement && portfolioNormalGrid instanceof HTMLElement;
 
 // Fonction de filtrage
 function handleFilter(filterValue) {
     filterButtons.forEach(btn => btn.classList.remove('active'));
-    
+
     const activeButton = document.querySelector(`[data-filter="${filterValue}"]`);
     if (activeButton) {
         activeButton.classList.add('active');
     }
-    
+
     const isMobile = window.innerWidth <= 768;
-    
-    if (filterValue === 'all' && !isMobile) {
-        portfolioAutoScroll.style.display = 'block';
-        portfolioNormalGrid.style.display = 'none';
-    } else {
-        portfolioAutoScroll.style.display = 'none';
-        portfolioNormalGrid.style.display = 'grid';
-        
-        portfolioItems.forEach(item => {
-            const itemCategory = item.getAttribute('data-category');
-            
-            if (filterValue === 'all' || itemCategory === filterValue) {
-                item.style.display = 'block';
-                item.style.opacity = '0';
-                item.style.transform = 'scale(0.8)';
-                
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'scale(1)';
-                }, 100);
-            } else {
-                item.style.opacity = '0';
-                item.style.transform = 'scale(0.8)';
-                setTimeout(() => {
-                    item.style.display = 'none';
-                }, 300);
-            }
-        });
+    const useAutoScroll = hasPortfolioLayouts && filterValue === 'all' && !isMobile;
+
+    if (hasPortfolioLayouts) {
+        portfolioAutoScroll.style.display = useAutoScroll ? 'block' : 'none';
+        portfolioNormalGrid.style.display = useAutoScroll ? 'none' : 'grid';
     }
+
+    if (useAutoScroll) {
+        return;
+    }
+
+    portfolioItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+
+        if (filterValue === 'all' || itemCategory === filterValue) {
+            item.style.display = 'block';
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'scale(1)';
+            }, 100);
+        } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                item.style.display = 'none';
+            }, 300);
+        }
+    });
 }
 
 // Event listeners pour les boutons de filtre
@@ -180,30 +198,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const images = document.querySelectorAll('img');
     images.forEach(img => {
         img.addEventListener('error', () => {
-    const placeholder = img.parentElement.querySelector('.placeholder-image');
-    if (placeholder) {
-        img.style.display = 'none';
-        placeholder.style.display = 'flex';
-    }
+            const parent = img.parentElement;
+            const placeholder = parent ? parent.querySelector('.placeholder-image') : null;
+            if (placeholder) {
+                img.style.display = 'none';
+                placeholder.style.display = 'flex';
+            }
         });
     });
-    
+
     const isMobile = window.innerWidth <= 768;
-    
+    handleFilter('all');
+
     if (isMobile) {
-        portfolioAutoScroll.style.display = 'none';
-        portfolioNormalGrid.style.display = 'grid';
-        
         portfolioItems.forEach(item => {
             item.style.display = 'block';
             item.style.opacity = '1';
             item.style.transform = 'scale(1)';
             item.style.visibility = 'visible';
         });
-        
-        portfolioNormalGrid.style.visibility = 'visible';
-    } else {
-        handleFilter('all');
+
+        if (hasPortfolioLayouts) {
+            portfolioNormalGrid.style.visibility = 'visible';
+        }
     }
 });
 
@@ -213,12 +230,14 @@ window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
         const isMobile = window.innerWidth <= 768;
-        
+
         if (isMobile) {
-            portfolioAutoScroll.style.display = 'none';
-            portfolioNormalGrid.style.display = 'grid';
-            portfolioNormalGrid.style.visibility = 'visible';
-            
+            if (hasPortfolioLayouts) {
+                portfolioAutoScroll.style.display = 'none';
+                portfolioNormalGrid.style.display = 'grid';
+                portfolioNormalGrid.style.visibility = 'visible';
+            }
+
             portfolioItems.forEach(item => {
                 item.style.display = 'block';
                 item.style.opacity = '1';
@@ -226,11 +245,9 @@ window.addEventListener('resize', () => {
                 item.style.visibility = 'visible';
             });
         } else {
-        const currentFilter = document.querySelector('.filter-btn.active');
-        if (currentFilter) {
-            const filterValue = currentFilter.getAttribute('data-filter');
-            handleFilter(filterValue);
-            }
+            const currentFilter = document.querySelector('.filter-btn.active');
+            const filterValue = currentFilter ? currentFilter.getAttribute('data-filter') : 'all';
+            handleFilter(filterValue || 'all');
         }
     }, 150);
 });
@@ -243,6 +260,10 @@ const lightboxDescription = document.getElementById('lightbox-description');
 const closeLightbox = document.querySelector('.close-lightbox');
 
 function openLightbox(item) {
+    if (!item || !lightbox || !lightboxImage || !lightboxTitle || !lightboxDescription) {
+        return;
+    }
+
     const title = item.querySelector('h3');
     const description = item.querySelector('p');
     const imagePlaceholder = item.querySelector('.placeholder-image');
@@ -304,20 +325,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Fermer le lightbox
-closeLightbox.addEventListener('click', () => {
-    lightbox.style.display = 'none';
-    document.body.style.overflow = 'auto';
-});
-
-lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
+if (closeLightbox && lightbox) {
+    closeLightbox.addEventListener('click', () => {
         lightbox.style.display = 'none';
         document.body.style.overflow = 'auto';
-    }
-});
+    });
+}
+
+if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+}
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox.style.display === 'block') {
+    if (e.key === 'Escape' && lightbox && lightbox.style.display === 'block') {
         lightbox.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
@@ -518,18 +543,27 @@ if (document.readyState === 'loading') {
 window.addEventListener('load', initPointer);
 
 /* ===== ANIMATION TOUCH MOBILE SIMPLE ===== */
+let touchEffectsInitialized = false;
+let touchClickFallbackAttached = false;
+
 function initTouchEffects() {
-    // Touch events pour mobile
-    document.addEventListener('touchstart', (e) => {
-        const touch = e.touches[0];
-        createSimpleTouchEffect(touch.clientX, touch.clientY);
-    }, { passive: true });
-    
+    if (!touchEffectsInitialized) {
+        // Touch events pour mobile
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            createSimpleTouchEffect(touch.clientX, touch.clientY);
+        }, { passive: true });
+
+        touchEffectsInitialized = true;
+    }
+
     // Click events comme fallback (pour simulateurs et certains appareils)
-    if (window.innerWidth < 769) {
+    if (window.innerWidth < 769 && !touchClickFallbackAttached) {
         document.addEventListener('click', (e) => {
             createSimpleTouchEffect(e.clientX, e.clientY);
         });
+
+        touchClickFallbackAttached = true;
     }
 }
 
@@ -586,6 +620,10 @@ document.addEventListener('DOMContentLoaded', initTouchEffects);
 
 /* ===== SYSTÈME DE PARTICULES ===== */
 function createParticleSystem() {
+    if (document.getElementById('particle-system')) {
+        return;
+    }
+
     const particleContainer = document.createElement('div');
     particleContainer.id = 'particle-system';
     particleContainer.style.cssText = `
@@ -741,7 +779,13 @@ function init3DCamera() {
         setTimeout(init3DCamera, 100);
         return;
     }
-    
+
+    if (container.clientWidth === 0 || container.clientHeight === 0) {
+        console.log('⚠️ Dimensions du container invalides, nouvelle tentative...');
+        setTimeout(init3DCamera, 100);
+        return;
+    }
+
     if (typeof THREE === 'undefined') {
         console.log('⚠️ Three.js non disponible, nouvelle tentative...');
         setTimeout(init3DCamera, 100);
